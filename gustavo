@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetEduca - Treinamento e Saúde para o seu Pet</title>
+    <style>
+        /* --- VARIÁVEIS DE DESIGN E CORES NOBRES --- */
+        :root {
+            --bg-principal: #fdfbf7; /* Off-white acolhedor */
+            --bg-card: #ffffff;
+            --texto-escuro: #2d2621; /* Cinza quente para legibilidade */
+            --texto-mutado: #61554d;
+            --cor-primaria: #e07a5f; /* Terracota / Caramelo suave */
+            --cor-secundaria: #81b29a; /* Verde sálvia relaxante */
+            --cor-detalhe: #f4f1de; /* Creme sutil */
+            --fonte-titulo: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --fonte-corpo: 'Helvetica Neue', Arial, sans-serif;
+            --radius: 12px;
+            --sombra: 0 4px 20px rgba(45, 38, 33, 0.06);
+            --transicao: all 0.3s ease;
+        }
+
+        /* --- RESET E ESTILOS GERAIS --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--fonte-corpo);
+            background-color: var(--bg-principal);
+            color: var(--texto-escuro);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--fonte-titulo);
+            color: var(--texto-escuro);
+            font-weight: 700;
+        }
+
+        /* --- ACESSIBILIDADE --- */
+        a:focus, button:focus {
+            outline: 3px solid var(--cor-primaria);
+            outline-offset: 2px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /* --- LAYOUT DO CABEÇALHO --- */
+        header {
+            background-color: rgba(253, 251, 247, 0.95);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            border-b: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .nav-container {
+            max-w: 1200px;
+            margin: 0 auto;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--cor-primaria);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--texto-escuro);
+            font-weight: 500;
+            transition: var(--transicao);
+        }
+
+        .nav-links a:hover {
+            color: var(--cor-primaria);
+        }
+
+        /* Menu Mobile Hamburguer */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.75rem;
+            cursor: pointer;
+            color: var(--texto-escuro);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            max-w: 1200px;
+            margin: 2rem auto;
+            padding: 4rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-conteudo h1 {
+            font-size: 3rem;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-conteudo p {
+            font-size: 1.2rem;
+            color: var(--texto-mutado);
+            margin-bottom: 2rem;
+        }
+
+        .btn-principal {
+            display: inline-block;
+            background-color: var(--cor-primaria);
+            color: #fff;
+            padding: 0.85rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 4px 14px rgba(224, 122, 95, 0.3);
+            transition: var(--transicao);
+        }
+
+        .btn-principal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(224, 122, 95, 0.4);
+        }
+
+        .hero-imagem img {
+            width: 100%;
+            height: auto;
+            border-radius: var(--radius);
+            box-shadow: var(--sombra);
+        }
+
+        /* --- SEÇÕES PADRÃO --- */
+        section {
+            max-w: 1200px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .section-titulo {
+            text-align: center;
+            font-size: 2.25rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-titulo::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: var(--cor-secundaria);
+            margin: 0.75rem auto 0 auto;
+            border-radius: 2px;
+        }
+
+        /* --- GRID DE CARD DE TREINAMENTO --- */
+        .grid-treinamento {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .card-treino {
+            background-color: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            box-shadow: var(--sombra);
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            background-color: var(--cor-detalhe);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .card-treino h3 {
+            margin-bottom: 1rem;
+        }
+
+        .passos-lista {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .passos-lista li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+            color: var(--texto-mutado);
+        }
+
+        .passos-lista li::before {
+            content: "➔";
+            position: absolute;
+            left: 0;
+            color: var(--cor-primaria);
+            font-size: 0.85rem;
+        }
+
+        /* --- SEÇÃO DE PREVENÇÃO --- */
+        .grid-prevencao {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .card-prevencao {
+            background-color: var(--bg-card);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--sombra);
+            text-align: center;
+            transition: var(--transicao);
+        }
+
+        .card-prevencao:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-prevencao .icon-box {
+            margin: 0 auto 1.5rem auto;
+            background-color: rgba(129, 178, 154, 0.15);
+            color: var(--cor-secundaria);
+        }
+
+        .card-prevencao p {
+            color: var(--texto-mutado);
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+
+        /* --- FAQ / RECURSOS --- */
+        .faq-container {
+            max-w: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background-color: var(--bg-card);
+            margin-bottom: 1rem;
+            border-radius: var(--radius);
+            box-shadow: var(--sombra);
+            overflow: hidden;
+        }
+
+        .faq-pergunta {
+            width: 100%;
+            padding: 1.5rem;
+            text-align: left;
+            background: none;
+            border: none;
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--texto-escuro);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-pergunta::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--cor-primaria);
+            transition: var(--transicao);
+        }
+
+        .faq-item.ativo .faq-pergunta::after {
+            content: '−';
+            transform: rotate(90deg);
+        }
+
+        .faq-resposta {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 1.5rem;
+            color: var(--texto-mutado);
+        }
+
+        .faq-item.ativo .faq-resposta {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            max-height: 200px;
+        }
+
+        /* --- RODAPÉ --- */
+        footer {
+            background-color: var(--texto-escuro);
+            color: #fff;
+            padding: 4rem 2rem 2rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-grid {
+            max-w: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 4rem;
+            padding-bottom: 3rem;
+            border-b: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .footer-info h3 {
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .footer-info p {
+            color: #ccc;
+            max-width: 400px;
+        }
+
+        .footer-links h4, .footer-contato h4 {
+            color: var(--cor-secundaria);
+            margin-bottom: 1.25rem;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: var(--transicao);
+        }
+
+        .footer-links ul li a:hover {
+            color: var(--cor-primaria);
+        }
+
+        .footer-contato p {
+            color: #ccc;
+            margin-bottom: 0.5rem;
+        }
+
+        .direitos {
+            text-align: center;
+            padding-top: 2rem;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        /* --- MEDIA QUERIES (RESPONSIVIDADE) --- */
+        @media (max-width: 968px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+                padding: 2rem 1rem;
+            }
+            .hero-conteudo h1 {
+                font-size: 2.25rem;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--bg-principal);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                text-align: center;
+                box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+                border-top: 1px solid rgba(0,0,0,0.05);
+            }
+            .nav-links.aberto {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo" aria-label="PetEduca Home">
+                🐾 PetEduca
+            </a>
+            <button class="menu-toggle" id="menuBtn" aria-label="Abrir Menu de Navegação" aria-expanded="false">
+                ☰
+            </button>
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#treinamento">Treinamento</a></li>
+                    <li><a href="#prevencao">Prevenção de Doenças</a></li>
+                    <li><a href="#faq">Dicas & FAQ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-conteudo">
+            <h1>Crie laços fortes com o seu melhor amigo</h1>
+            <p>Aprenda técnicas profissionais de adestramento positivo e os cuidados de saúde essenciais para garantir uma vida longa, ativa e feliz para o seu pet.</p>
+            <a href="#treinamento" class="btn-principal">Começar Aprendizado</a>
+        </div>
+        <div class="hero-imagem">
+            <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&q=80&w=600" alt="Cachorrinho feliz olhando para o dono recebendo carinho no parque">
+        </div>
+    </section>
+
+    <section id="treinamento">
+        <h2 class="section-titulo">Guia Prático de Comandos</h2>
+        <div class="grid-treinamento">
+            
+            <article class="card-treino">
+                <div class="icon-box" aria-hidden="true">🫱</div>
+                <h3>1. Ensinar a "Dar a Pata"</h3>
+                <p>Este comando estimula a coordenação e a confiança mútua.</p>
+                <ul class="passos-lista">
+                    <li>Peça para o seu pet sentar-se à sua frente.</li>
+                    <li>Feche um petisco na mão e mostre o punho fechado perto da pata dele.</li>
+                    <li>Quando ele bater com a pata na sua mão por curiosidade, abra, diga "Dá a pata" e recompense.</li>
+                </ul>
+            </article>
+
+            <article class="card-treino">
+                <div class="icon-box" aria-hidden="true">⬇️</div>
+                <h3>2. Ensinar a "Sentar"</h3>
+                <p>O comando mais importante para controle de impulsos e foco.</p>
+                <ul class="passos-lista">
+                    <li>Segure o petisco bem próximo ao focinho do animal.</li>
+                    <li>Mova sua mão devagar para cima e para trás da cabeça dele.</li>
+                    <li>O bumbum dele irá naturalmente tocar o chão. Assim que sentar, diga "Senta" e dê a recompensa.</li>
+                </ul>
+            </article>
+
+            <article class="card-treino">
+                <div class="icon-box" aria-hidden="true">🛏️</div>
+                <h3>3. Ensinar a "Deitar"</h3>
+                <p>Útil para acalmar o pet em momentos de agitação ou visitas.</p>
+                <ul class="passos-lista">
+                    <li>Com o cão na posição de sentando, pegue o petisco.</li>
+                    <li>Leve a mão com o petisco direto em linha reta até o chão, entre as patas da frente.</li>
+                    <li>Ele deslizará o corpo para baixo. Quando deitar o peito, fale "Deita" e entregue o prêmio.</li>
+                </ul>
+            </article>
+
+            <article class="card-treino">
+                <div class="icon-box" aria-hidden="true">🏃‍♂️</div>
+                <h3>4. Vir quando chamado ("Aqui")</h3>
+                <p>Um comando essencial para a segurança em ambientes abertos.</p>
+                <ul class="passos-lista">
+                    <li>Comece em um corredor ou local pequeno sem distrações.</li>
+                    <li>Abaixe-se na altura dele, abra os braços e chame com voz alegre.</li>
+                    <li>Assim que ele vier correndo, faça muita festa, use palavras de incentivo e dê o petisco.</li>
+                </ul>
+            </article>
+        </div>
+    </section>
+
+    <section id="prevencao">
+        <h2 class="section-titulo">Prevenção e Saúde Animal</h2>
+        <div class="grid-prevencao">
+            
+            <div class="card-prevencao">
+                <div class="icon-box" aria-hidden="true">💉</div>
+                <h3>Vacinação</h3>
+                <p>Mantenha as vacinas polivalentes (V8/V10) e a antirrábica sempre atualizadas anualmente para evitar doenças letais.</p>
+            </div>
+
+            <div class="card-prevencao">
+                <div class="icon-box" aria-hidden="true">🧴</div>
+                <h3>Higiene</h3>
+                <p>Escove os pelos semanalmente para evitar dermatites e limpe as orelhas regularmente para afastar infecções/otites.</p>
+            </div>
+
+            <div class="card-prevencao">
+                <div class="icon-box" aria-hidden="true">🥩</div>
+                <h3>Nutrição</h3>
+                <p>Ofereça ração de qualidade de acordo com o porte e idade. Nunca dê alimentos tóxicos como chocolate, uva ou cebola.</p>
+            </div>
+
+            <div class="card-prevencao">
+                <div class="icon-box" aria-hidden="true">🩺</div>
+                <h3>Check-ups</h3>
+                <p>Leve seu animal de estimação ao médico veterinário ao menos uma vez ao ano para exames preventivos de rotina.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq">
+        <h2 class="section-titulo">Dicas Rápidas & FAQ</h2>
+        <div class="faq-container">
+            
+            <div class="faq-item">
+                <button class="faq-pergunta">Qual a melhor idade para começar o treinamento?</button>
+                <div class="faq-resposta">
+                    <p>Você pode iniciar comandos básicos com filhotes a partir dos 2 meses de vida. No entanto, pets adultos e idosos também aprendem perfeitamente através de paciência e sessões consistentes de reforço positivo.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-pergunta">Quantas vezes por dia devo treinar?</button>
+                <div class="faq-resposta">
+                    <p>O ideal são sessões curtas e divertidas: de 2 a 3 vezes por dia, durando de 5 a 10 minutos cada. Sessões muito longas deixam o animal entediado ou exausto.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-pergunta">O que fazer se o pet não obedecer de primeira?</button>
+                <div class="faq-resposta">
+                    <p>Nunca grite ou use punições físicas. Se o pet errar, apenas ignore e não dê o petisco. Reduza o nível de dificuldade ou tente novamente mais tarde quando ele estiver mais focado.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-info">
+                <h3>🐾 PetEduca</h3>
+                <p>Plataforma dedicada a espalhar conhecimento prático e empático para transformar a convivência familiar com animais de estimação.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Navegação</h4>
+                <ul>
+                    <li><a href="#treinamento">Treinamento</a></li>
+                    <li><a href="#prevencao">Prevenção</a></li>
+                    <li><a href="#faq">Perguntas Frequentes</a></li>
+                </ul>
+            </div>
+            <div class="footer-contato">
+                <h4>Contato</h4>
+                <p>📧 contato@peteduca.com</p>
+                <p>📍 Atendimento Online para todo o Brasil</p>
+            </div>
+        </div>
+        <div class="direitos">
+            <p>&copy; 2026 PetEduca. Desenvolvido com foco no bem-estar animal e acessibilidade na web.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- MENU MOBILE ---
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        menuBtn.addEventListener('click', () => {
+            const aberto = navLinks.classList.toggle('aberto');
+            menuBtn.setAttribute('aria-expanded', aberto);
+            menuBtn.textContent = aberto ? '✕' : '☰';
+        });
+
+        // Fechar menu mobile ao clicar em um link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('aberto');
+                menuBtn.textContent = '☰';
+                menuBtn.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // --- SISTEMA DE SANFONA (FAQ ACCORDION) ---
+        document.querySelectorAll('.faq-pergunta').forEach(botao => {
+            botao.addEventListener('click', () => {
+                const item = botao.parentElement;
+                
+                // Fecha outros itens abertos (opcional, gera visual limpo)
+                document.querySelectorAll('.faq-item').forEach(outroItem => {
+                    if (outroItem !== item) outroItem.classList.remove('ativo');
+                });
+
+                item.classList.toggle('ativo');
+            });
+        });
+    </script>
+</body>
+</html>
